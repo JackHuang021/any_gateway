@@ -1,0 +1,11 @@
+{
+    "editor.tabSize": 4,
+	"editor.insertSpaces": false,
+	"files.associations": {
+		"task.h": "c",
+		"sdkconfig.h": "c",
+		"stdio.h": "c",
+		"freertos.h": "c",
+		"esp_flash.h": "c"
+	},
+}
