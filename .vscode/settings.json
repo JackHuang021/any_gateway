@@ -8,4 +8,6 @@
 		"freertos.h": "c",
 		"esp_flash.h": "c"
 	},
+	"idf.portWin": "COM4",
+	"C_Cpp.errorSquiggles": "disabled",
 }
