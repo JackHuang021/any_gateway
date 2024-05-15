@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <sys/param.h>
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
@@ -21,8 +22,26 @@
 
 #include "cJSON.h"
 #include "wifi_manager.h"
+#include "mqtt.h"
+
+static const char TAG[] = "any_gateway";
+static struct EventGroupDef_t *wifi_event_group;
+
+/* wifi event define */
+const EventBits_t WIFI_CONNECTED = BIT0;
+
+
+static void cb_wifi_connectted(void *parameter)
+{
+	ESP_LOGI(TAG, "wifi connected callback");
+	xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED);
+}
 
 void app_main()
 {
+	wifi_event_group = xEventGroupCreate();
 	wifi_manager_start();
+	wifi_manager_set_callback(WM_EVENT_STA_GOT_IP, cb_wifi_connectted);
+	xEventGroupWaitBits(wifi_event_group, WIFI_CONNECTED, pdFALSE, pdTRUE, portMAX_DELAY);
+	mqtt_client_init();
 }
